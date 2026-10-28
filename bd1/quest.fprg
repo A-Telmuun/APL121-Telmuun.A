@@ -1,0 +1,351 @@
+<?xml version="1.0"?>
+<flowgorithm fileversion="2.11">
+    <attributes>
+        <attribute name="name" value=""/>
+        <attribute name="authors" value="temkaashub"/>
+        <attribute name="about" value=""/>
+        <attribute name="saved" value="2026-01-01 12:00:00 PM"/>
+        <attribute name="created" value="dGVta2Fhc2h1YjtNYWNCb29rOzIwMjYtMDEtMDE7MTI6MDA6MDAgUE07MQ=="/>
+        <attribute name="edited" value="dGVta2Fhc2h1YjtNYWNCb29rOzIwMjYtMDEtMDE7MTI6MDA6MDAgUE07MQ=="/>
+    </attributes>
+    <function name="Main" type="None" variable="">
+        <parameters/>
+        <body>
+            <declare name="year" type="Integer" array="False" size=""/>
+            <declare name="month" type="Integer" array="False" size=""/>
+            <declare name="m" type="Integer" array="False" size=""/>
+            <declare name="d" type="Integer" array="False" size=""/>
+            <declare name="holidays" type="Integer" array="False" size=""/>
+            <declare name="firstFri13" type="Integer" array="False" size=""/>
+            <declare name="fri13Count" type="Integer" array="False" size=""/>
+            <declare name="y1" type="Integer" array="False" size=""/>
+            <declare name="m1" type="Integer" array="False" size=""/>
+            <declare name="d1" type="Integer" array="False" size=""/>
+            <declare name="y2" type="Integer" array="False" size=""/>
+            <declare name="m2" type="Integer" array="False" size=""/>
+            <declare name="d2" type="Integer" array="False" size=""/>
+            <declare name="n1" type="Integer" array="False" size=""/>
+            <declare name="n2" type="Integer" array="False" size=""/>
+            <output expression="&quot;=== &#1061;&#1059;&#1040;&#1053;&#1051;&#1048; &#1061;&#1069;&#1042;&#1051;&#1069;&#1043;&#1063; (&#1057;&#1101;&#1076;&#1101;&#1074; &#8470;29) ===&quot;" newline="True"/>
+            <comment text="1. &#1054;&#1088;&#1086;&#1083;&#1090;: &#1086;&#1085;, &#1089;&#1072;&#1088; (do-while &#1096;&#1072;&#1083;&#1075;&#1072;&#1083;&#1090; &#1092;&#1091;&#1085;&#1082;&#1094; &#1076;&#1086;&#1090;&#1086;&#1088;)"/>
+            <assign variable="year" expression="ReadYear()"/>
+            <assign variable="month" expression="ReadMonth()"/>
+            <comment text="2. &#1256;&#1085;&#1076;&#1257;&#1088; &#1078;&#1080;&#1083; &#1073;&#1072; &#1089;&#1072;&#1088;&#1099;&#1085; &#1093;&#1086;&#1085;&#1086;&#1075;"/>
+            <if expression="IsLeap(year)">
+            <then>
+            <output expression="year &amp; &quot; &#1086;&#1085;: &#1257;&#1085;&#1076;&#1257;&#1088; &#1078;&#1080;&#1083; (366 &#1093;&#1086;&#1085;&#1086;&#1075;)&quot;" newline="True"/>
+            </then>
+            <else>
+            <output expression="year &amp; &quot; &#1086;&#1085;: &#1101;&#1085;&#1075;&#1080;&#1081;&#1085; &#1078;&#1080;&#1083; (365 &#1093;&#1086;&#1085;&#1086;&#1075;)&quot;" newline="True"/>
+            </else>
+            </if>
+            <output expression="month &amp; &quot;-&#1088; &#1089;&#1072;&#1088; &quot; &amp; DaysInMonth(year, month) &amp; &quot; &#1093;&#1086;&#1085;&#1086;&#1075;&#1090;&#1086;&#1081;&quot;" newline="True"/>
+            <comment text="3. &#1057;&#1072;&#1088;&#1099;&#1085; &#1093;&#1091;&#1072;&#1085;&#1083;&#1080; &#8212; &#1076;&#1101;&#1076; &#1072;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084;&#1099;&#1075; Call &#1073;&#1083;&#1086;&#1082;&#1086;&#1086;&#1088; &#1076;&#1091;&#1091;&#1076;&#1085;&#1072;"/>
+            <call expression="PrintCalendar(year, month)"/>
+            <comment text="4. &#1046;&#1080;&#1083;&#1080;&#1081;&#1085; &#1090;&#1086;&#1081;&#1084; &#1093;&#1199;&#1089;&#1085;&#1101;&#1075;&#1090; + &#1041;&#1072;&#1072;&#1089;&#1072;&#1085; &#1075;&#1072;&#1088;&#1072;&#1075;&#1090; &#1090;&#1072;&#1072;&#1088;&#1089;&#1072;&#1085; 13-&#1085;&#1099;&#1075; &#1093;&#1072;&#1081;&#1093;"/>
+            <output expression="&quot;&quot;" newline="True"/>
+            <output expression="&quot;--- &quot; &amp; year &amp; &quot; &#1086;&#1085;&#1099; &#1089;&#1072;&#1088; &#1073;&#1199;&#1088;&#1080;&#1081;&#1085; &#1090;&#1086;&#1081;&#1084; ---&quot;" newline="True"/>
+            <output expression="&quot; &#1057;&#1072;&#1088;  &#1061;&#1086;&#1085;&#1086;&#1075;  &#1041;&#1072;&#1103;&#1088;   &#1069;&#1093;&#1083;&#1101;&#1093; &#1075;&#1072;&#1088;&#1072;&#1075;&quot;" newline="True"/>
+            <assign variable="firstFri13" expression="0"/>
+            <assign variable="fri13Count" expression="0"/>
+            <for variable="m" start="1" end="12" direction="inc" step="1">
+            <assign variable="holidays" expression="0"/>
+            <for variable="d" start="1" end="DaysInMonth(year, m)" direction="inc" step="1">
+            <if expression="IsHoliday(m, d)">
+            <then>
+            <assign variable="holidays" expression="holidays + 1"/>
+            </then>
+            <else/>
+            </if>
+            </for>
+            <output expression="m &amp; &quot;  &quot; &amp; DaysInMonth(year, m) &amp; &quot;  &quot; &amp; holidays &amp; &quot;   &quot; &amp; WeekdayName(DayNumber(year, m, 1) % 7)" newline="True"/>
+            <if expression="DayNumber(year, m, 13) % 7 == 4">
+            <then>
+            <assign variable="fri13Count" expression="fri13Count + 1"/>
+            <if expression="firstFri13 == 0">
+            <then>
+            <assign variable="firstFri13" expression="m"/>
+            </then>
+            <else/>
+            </if>
+            </then>
+            <else/>
+            </if>
+            </for>
+            <output expression="&quot;&#1041;&#1072;&#1072;&#1089;&#1072;&#1085; &#1075;&#1072;&#1088;&#1072;&#1075;&#1090; &#1090;&#1072;&#1072;&#1088;&#1089;&#1072;&#1085; 13-&#1085;&#1099; &#1257;&#1076;&#1257;&#1088;: &quot; &amp; fri13Count &amp; &quot; &#1091;&#1076;&#1072;&#1072;, &#1101;&#1093;&#1085;&#1080;&#1081;&#1093; &#1085;&#1100; &quot; &amp; firstFri13 &amp; &quot;-&#1088; &#1089;&#1072;&#1088;&#1076;&quot;" newline="True"/>
+            <comment text="5. &#1061;&#1086;&#1105;&#1088; &#1086;&#1075;&#1085;&#1086;&#1086; &#1093;&#1072;&#1088;&#1100;&#1094;&#1091;&#1091;&#1083;&#1072;&#1093;"/>
+            <output expression="&quot;&quot;" newline="True"/>
+            <output expression="&quot;--- &#1061;&#1086;&#1105;&#1088; &#1086;&#1075;&#1085;&#1086;&#1086; &#1093;&#1072;&#1088;&#1100;&#1094;&#1091;&#1091;&#1083;&#1072;&#1093; ---&quot;" newline="True"/>
+            <output expression="&quot;1-&#1088; &#1086;&#1075;&#1085;&#1086;&#1086;:&quot;" newline="True"/>
+            <assign variable="y1" expression="ReadYear()"/>
+            <assign variable="m1" expression="ReadMonth()"/>
+            <assign variable="d1" expression="ReadDay(y1, m1)"/>
+            <output expression="&quot;2-&#1088; &#1086;&#1075;&#1085;&#1086;&#1086;:&quot;" newline="True"/>
+            <assign variable="y2" expression="ReadYear()"/>
+            <assign variable="m2" expression="ReadMonth()"/>
+            <assign variable="d2" expression="ReadDay(y2, m2)"/>
+            <assign variable="n1" expression="DayNumber(y1, m1, d1)"/>
+            <assign variable="n2" expression="DayNumber(y2, m2, d2)"/>
+            <output expression="y1 &amp; &quot;-&quot; &amp; m1 &amp; &quot;-&quot; &amp; d1 &amp; &quot; (&quot; &amp; WeekdayName(n1 % 7) &amp; &quot;), &quot; &amp; y2 &amp; &quot;-&quot; &amp; m2 &amp; &quot;-&quot; &amp; d2 &amp; &quot; (&quot; &amp; WeekdayName(n2 % 7) &amp; &quot;)&quot;" newline="True"/>
+            <if expression="n1 &lt; n2">
+            <then>
+            <output expression="&quot;1-&#1088; &#1086;&#1075;&#1085;&#1086;&#1086; &quot; &amp; (n2 - n1) &amp; &quot; &#1093;&#1086;&#1085;&#1086;&#1075;&#1086;&#1086;&#1088; &#1256;&#1052;&#1053;&#1256; &#1073;&#1072;&#1081;&#1085;&#1072;.&quot;" newline="True"/>
+            </then>
+            <else>
+            <if expression="n1 &gt; n2">
+            <then>
+            <output expression="&quot;2-&#1088; &#1086;&#1075;&#1085;&#1086;&#1086; &quot; &amp; (n1 - n2) &amp; &quot; &#1093;&#1086;&#1085;&#1086;&#1075;&#1086;&#1086;&#1088; &#1256;&#1052;&#1053;&#1256; &#1073;&#1072;&#1081;&#1085;&#1072;.&quot;" newline="True"/>
+            </then>
+            <else>
+            <output expression="&quot;&#1061;&#1086;&#1105;&#1088; &#1086;&#1075;&#1085;&#1086;&#1086; &#1048;&#1046;&#1048;&#1051; &#1073;&#1072;&#1081;&#1085;&#1072;.&quot;" newline="True"/>
+            </else>
+            </if>
+            </else>
+            </if>
+            <output expression="&quot;&quot;" newline="True"/>
+            <output expression="&quot;&#1041;&#1072;&#1103;&#1088;&#1083;&#1072;&#1083;&#1072;&#1072;!&quot;" newline="True"/>
+        </body>
+    </function>
+    <function name="IsLeap" type="Boolean" variable="leap">
+    <parameters>
+    <parameter name="y" type="Integer" array="False"/>
+    </parameters>
+    <body>
+    <comment text="&#1043;&#1088;&#1080;&#1075;&#1086;&#1088;&#1080;&#1081;&#1085; &#1090;&#1086;&#1086;&#1083;&#1086;&#1083;: 4-&#1090; &#1093;&#1091;&#1074;&#1072;&#1072;&#1075;&#1076;&#1072;&#1093; &#1073;&#1072; 100-&#1076; &#1093;&#1091;&#1074;&#1072;&#1072;&#1075;&#1076;&#1072;&#1093;&#1075;&#1199;&#1081;, &#1101;&#1089;&#1074;&#1101;&#1083; 400-&#1076; &#1093;&#1091;&#1074;&#1072;&#1072;&#1075;&#1076;&#1072;&#1085;&#1072;"/>
+    <declare name="leap" type="Boolean" array="False" size=""/>
+    <assign variable="leap" expression="(y % 4 == 0 &amp;&amp; y % 100 != 0) || y % 400 == 0"/>
+    </body>
+    </function>
+    <function name="DaysInMonth" type="Integer" variable="days">
+    <parameters>
+    <parameter name="y" type="Integer" array="False"/>
+    <parameter name="m" type="Integer" array="False"/>
+    </parameters>
+    <body>
+    <comment text="else-if &#1096;&#1072;&#1090;: 2-&#1088; &#1089;&#1072;&#1088; / 30 &#1093;&#1086;&#1085;&#1086;&#1075;&#1090;&#1086;&#1081; &#1089;&#1072;&#1088;&#1091;&#1091;&#1076; / &#1073;&#1091;&#1089;&#1072;&#1076;"/>
+    <declare name="days" type="Integer" array="False" size=""/>
+    <if expression="m == 2">
+    <then>
+    <if expression="IsLeap(y)">
+    <then>
+    <assign variable="days" expression="29"/>
+    </then>
+    <else>
+    <assign variable="days" expression="28"/>
+    </else>
+    </if>
+    </then>
+    <else>
+    <if expression="m == 4 || m == 6 || m == 9 || m == 11">
+    <then>
+    <assign variable="days" expression="30"/>
+    </then>
+    <else>
+    <assign variable="days" expression="31"/>
+    </else>
+    </if>
+    </else>
+    </if>
+    </body>
+    </function>
+    <function name="DayNumber" type="Integer" variable="total">
+    <parameters>
+    <parameter name="y" type="Integer" array="False"/>
+    <parameter name="m" type="Integer" array="False"/>
+    <parameter name="d" type="Integer" array="False"/>
+    </parameters>
+    <body>
+    <comment text="1900-01-01 (&#1044;&#1072;&#1074;&#1072;&#1072;)-&#1101;&#1101;&#1089; &#1093;&#1086;&#1081;&#1096; &#1257;&#1085;&#1075;&#1257;&#1088;&#1089;&#1257;&#1085; &#1093;&#1086;&#1085;&#1086;&#1075;&#1080;&#1081;&#1075; &#1076;&#1072;&#1074;&#1090;&#1072;&#1083;&#1090;&#1072;&#1072;&#1088; &#1090;&#1086;&#1086;&#1083;&#1085;&#1086;"/>
+    <declare name="total" type="Integer" array="False" size=""/>
+    <declare name="yy" type="Integer" array="False" size=""/>
+    <declare name="mm" type="Integer" array="False" size=""/>
+    <assign variable="total" expression="0"/>
+    <for variable="yy" start="1900" end="y - 1" direction="inc" step="1">
+    <if expression="IsLeap(yy)">
+    <then>
+    <assign variable="total" expression="total + 366"/>
+    </then>
+    <else>
+    <assign variable="total" expression="total + 365"/>
+    </else>
+    </if>
+    </for>
+    <for variable="mm" start="1" end="m - 1" direction="inc" step="1">
+    <assign variable="total" expression="total + DaysInMonth(y, mm)"/>
+    </for>
+    <assign variable="total" expression="total + d - 1"/>
+    </body>
+    </function>
+    <function name="WeekdayName" type="String" variable="wdName">
+    <parameters>
+    <parameter name="w" type="Integer" array="False"/>
+    </parameters>
+    <body>
+    <comment text="0 = &#1044;&#1072;&#1074;&#1072;&#1072; ... 6 = &#1053;&#1103;&#1084;"/>
+    <declare name="wdName" type="String" array="False" size=""/>
+    <if expression="w == 0">
+    <then>
+    <assign variable="wdName" expression="&quot;&#1044;&#1072;&#1074;&#1072;&#1072;&quot;"/>
+    </then>
+    <else>
+    <if expression="w == 1">
+    <then>
+    <assign variable="wdName" expression="&quot;&#1052;&#1103;&#1075;&#1084;&#1072;&#1088;&quot;"/>
+    </then>
+    <else>
+    <if expression="w == 2">
+    <then>
+    <assign variable="wdName" expression="&quot;&#1051;&#1093;&#1072;&#1075;&#1074;&#1072;&quot;"/>
+    </then>
+    <else>
+    <if expression="w == 3">
+    <then>
+    <assign variable="wdName" expression="&quot;&#1055;&#1199;&#1088;&#1101;&#1074;&quot;"/>
+    </then>
+    <else>
+    <if expression="w == 4">
+    <then>
+    <assign variable="wdName" expression="&quot;&#1041;&#1072;&#1072;&#1089;&#1072;&#1085;&quot;"/>
+    </then>
+    <else>
+    <if expression="w == 5">
+    <then>
+    <assign variable="wdName" expression="&quot;&#1041;&#1103;&#1084;&#1073;&#1072;&quot;"/>
+    </then>
+    <else>
+    <assign variable="wdName" expression="&quot;&#1053;&#1103;&#1084;&quot;"/>
+    </else>
+    </if>
+    </else>
+    </if>
+    </else>
+    </if>
+    </else>
+    </if>
+    </else>
+    </if>
+    </else>
+    </if>
+    </body>
+    </function>
+    <function name="IsHoliday" type="Boolean" variable="hol">
+    <parameters>
+    <parameter name="m" type="Integer" array="False"/>
+    <parameter name="d" type="Integer" array="False"/>
+    </parameters>
+    <body>
+    <comment text="&#1058;&#1086;&#1075;&#1090;&#1084;&#1086;&#1083; &#1086;&#1075;&#1085;&#1086;&#1086;&#1090;&#1086;&#1081; &#1073;&#1072;&#1103;&#1088;: 1/1, 3/8, 6/1, 7/11-15, 11/26, 12/29"/>
+    <declare name="hol" type="Boolean" array="False" size=""/>
+    <assign variable="hol" expression="(m == 1 &amp;&amp; d == 1) || (m == 3 &amp;&amp; d == 8) || (m == 6 &amp;&amp; d == 1) || (m == 7 &amp;&amp; d &gt;= 11 &amp;&amp; d &lt;= 15) || (m == 11 &amp;&amp; d == 26) || (m == 12 &amp;&amp; d == 29)"/>
+    </body>
+    </function>
+    <function name="ReadYear" type="Integer" variable="y">
+    <parameters/>
+    <body>
+    <declare name="y" type="Integer" array="False" size=""/>
+    <do expression="y &lt; 1900 || y &gt; 2100">
+    <output expression="&quot;&#1054;&#1085; &#1086;&#1088;&#1091;&#1091;&#1083;&#1085;&#1072; &#1091;&#1091; (1900-2100): &quot;" newline="True"/>
+    <input variable="y"/>
+    <if expression="y &lt; 1900 || y &gt; 2100">
+    <then>
+    <output expression="&quot;&#1040;&#1083;&#1076;&#1072;&#1072;: &#1086;&#1085; 1900-2100 &#1093;&#1086;&#1086;&#1088;&#1086;&#1085;&#1076; &#1073;&#1072;&#1081;&#1093; &#1105;&#1089;&#1090;&#1086;&#1081;!&quot;" newline="True"/>
+    </then>
+    <else/>
+    </if>
+    </do>
+    </body>
+    </function>
+    <function name="ReadMonth" type="Integer" variable="m">
+    <parameters/>
+    <body>
+    <declare name="m" type="Integer" array="False" size=""/>
+    <do expression="m &lt; 1 || m &gt; 12">
+    <output expression="&quot;&#1057;&#1072;&#1088; &#1086;&#1088;&#1091;&#1091;&#1083;&#1085;&#1072; &#1091;&#1091; (1-12): &quot;" newline="True"/>
+    <input variable="m"/>
+    <if expression="m &lt; 1 || m &gt; 12">
+    <then>
+    <output expression="&quot;&#1040;&#1083;&#1076;&#1072;&#1072;: &#1089;&#1072;&#1088; 1-12 &#1093;&#1086;&#1086;&#1088;&#1086;&#1085;&#1076; &#1073;&#1072;&#1081;&#1093; &#1105;&#1089;&#1090;&#1086;&#1081;!&quot;" newline="True"/>
+    </then>
+    <else/>
+    </if>
+    </do>
+    </body>
+    </function>
+    <function name="ReadDay" type="Integer" variable="d">
+    <parameters>
+    <parameter name="y" type="Integer" array="False"/>
+    <parameter name="m" type="Integer" array="False"/>
+    </parameters>
+    <body>
+    <declare name="d" type="Integer" array="False" size=""/>
+    <declare name="maxDay" type="Integer" array="False" size=""/>
+    <assign variable="maxDay" expression="DaysInMonth(y, m)"/>
+    <do expression="d &lt; 1 || d &gt; maxDay">
+    <output expression="&quot;&#1256;&#1076;&#1257;&#1088; &#1086;&#1088;&#1091;&#1091;&#1083;&#1085;&#1072; &#1091;&#1091; (1-&quot; &amp; maxDay &amp; &quot;): &quot;" newline="True"/>
+    <input variable="d"/>
+    <if expression="d &lt; 1 || d &gt; maxDay">
+    <then>
+    <output expression="&quot;&#1040;&#1083;&#1076;&#1072;&#1072;: &#1257;&#1076;&#1257;&#1088; 1-&quot; &amp; maxDay &amp; &quot; &#1093;&#1086;&#1086;&#1088;&#1086;&#1085;&#1076; &#1073;&#1072;&#1081;&#1093; &#1105;&#1089;&#1090;&#1086;&#1081;!&quot;" newline="True"/>
+    </then>
+    <else/>
+    </if>
+    </do>
+    </body>
+    </function>
+    <function name="PrintCalendar" type="None" variable="">
+    <parameters>
+    <parameter name="y" type="Integer" array="False"/>
+    <parameter name="m" type="Integer" array="False"/>
+    </parameters>
+    <body>
+    <comment text="&#1057;&#1072;&#1088;&#1099;&#1085; &#1093;&#1091;&#1072;&#1085;&#1083;&#1080;&#1081;&#1075; 7 &#1073;&#1072;&#1075;&#1072;&#1085;&#1072;&#1072;&#1088; (&#1044;&#1072; ... &#1053;&#1103;) &#1093;&#1101;&#1074;&#1083;&#1101;&#1085;&#1101;"/>
+    <declare name="days" type="Integer" array="False" size=""/>
+    <declare name="startCol" type="Integer" array="False" size=""/>
+    <declare name="column" type="Integer" array="False" size=""/>
+    <declare name="dayNo" type="Integer" array="False" size=""/>
+    <assign variable="days" expression="DaysInMonth(y, m)"/>
+    <assign variable="startCol" expression="DayNumber(y, m, 1) % 7"/>
+    <output expression="&quot;&quot;" newline="True"/>
+    <output expression="&quot;      &quot; &amp; y &amp; &quot; &#1086;&#1085;&#1099; &quot; &amp; m &amp; &quot;-&#1088; &#1089;&#1072;&#1088;&quot;" newline="True"/>
+    <output expression="&quot; &#1044;&#1072;  &#1052;&#1103;  &#1051;&#1093;  &#1055;&#1199;  &#1041;&#1072;  &#1041;&#1103;  &#1053;&#1103;&quot;" newline="True"/>
+    <comment text="1-&#1085;&#1080;&#1081; &#1257;&#1076;&#1257;&#1088; &#1093;&#1199;&#1088;&#1090;&#1101;&#1083;&#1093; &#1093;&#1086;&#1086;&#1089;&#1086;&#1085; &#1085;&#1199;&#1076;&#1085;&#1199;&#1199;&#1076;"/>
+    <for variable="column" start="0" end="startCol - 1" direction="inc" step="1">
+    <output expression="&quot;    &quot;" newline="False"/>
+    </for>
+    <assign variable="column" expression="startCol"/>
+    <for variable="dayNo" start="1" end="days" direction="inc" step="1">
+    <if expression="dayNo &lt; 10">
+    <then>
+    <output expression="&quot;  &quot; &amp; dayNo" newline="False"/>
+    </then>
+    <else>
+    <output expression="&quot; &quot; &amp; dayNo" newline="False"/>
+    </else>
+    </if>
+    <if expression="IsHoliday(m, dayNo)">
+    <then>
+    <output expression="&quot;*&quot;" newline="False"/>
+    </then>
+    <else>
+    <output expression="&quot; &quot;" newline="False"/>
+    </else>
+    </if>
+    <assign variable="column" expression="column + 1"/>
+    <if expression="column == 7">
+    <then>
+    <output expression="&quot;&quot;" newline="True"/>
+    <assign variable="column" expression="0"/>
+    </then>
+    <else/>
+    </if>
+    </for>
+    <if expression="column != 0">
+    <then>
+    <output expression="&quot;&quot;" newline="True"/>
+    </then>
+    <else/>
+    </if>
+    <output expression="&quot;(* = &#1085;&#1080;&#1081;&#1090;&#1101;&#1101;&#1088; &#1072;&#1084;&#1088;&#1072;&#1093; &#1073;&#1072;&#1103;&#1088;&#1099;&#1085; &#1257;&#1076;&#1257;&#1088;)&quot;" newline="True"/>
+    </body>
+    </function>
+</flowgorithm>
